@@ -8,6 +8,7 @@ import {
   AbstractControl,
   FormControl,
 } from '@angular/forms';
+
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Employees,EmployeeFitler } from 'src/app/Model/EmployeeSearch';
 import { EmployeeSearchService } from '../employee-search.service';
@@ -47,7 +48,10 @@ debugger;
         this.Emp.Name =  params.user_name !== undefined ? params.user_name : "";        
         this.Emp.Phone =  params.user_phone !== undefined ? params.user_phone : "";        
         this.Emp.Country =  params.country !== undefined ? params.country : "";
-        this.Emp.Date = params.date !== undefined ? params.date : "";
+
+        if(params.date !== undefined)
+          this.Emp.Date = params.date;
+
         this.Emp.Email = params.email !== undefined ? params.email : "";
         this.Emp.Company = params.company !== undefined ? params.company : "";
       }
@@ -78,8 +82,14 @@ debugger;
         }
         else if(element.title.toLowerCase().includes('date'))
         {
-          var dt = new Date(this.Emp.Date);
-          this.SearchEmployeeForm.addControl(element.title, new FormControl(dt));
+          if(this.Emp.Date !== undefined )
+          {
+            var dt = new Date(this.Emp.Date);
+            this.SearchEmployeeForm.addControl(element.title, new FormControl(dt));
+          }
+          else{
+            this.SearchEmployeeForm.addControl(element.title, new FormControl(''));
+          }
         }
         else if(element.title.toLowerCase().includes('phone'))
         {
@@ -111,6 +121,19 @@ debugger;
     const ascending: any= this.EmployeeSearchList.sort((a,b) =>  (a.Name > b.Name ? 1 : -1));
     this.EmployeeSearchList = ascending;
   }
+
+  SortByEmailDesc()
+  {
+    const descending: any=  this.EmployeeSearchList.sort((a,b) => (a.Email > b.Email ? -1 : 1))
+    this.EmployeeSearchList = descending;
+  }
+
+  SortByEmailAsc()
+  {
+    const ascending: any= this.EmployeeSearchList.sort((a,b) =>  (a.Email > b.Email ? 1 : -1));
+    this.EmployeeSearchList = ascending;
+  }
+
 
   SortByCountryDesc()
   {
@@ -172,7 +195,7 @@ debugger;
 
     if(this.Emp.Name !== undefined && this.Emp.Name.trim() !== '' ) 
     {
-      var res = this.EmployeeSearchList.filter(x => x.Name.toLowerCase() === this.Emp.Name.toLowerCase());
+      var res = this.EmployeeSearchList.filter(x => x.Name.toLowerCase().includes(this.Emp.Name.toLowerCase()));// === this.Emp.Name.toLowerCase());
       this.EmployeeSearchList = res;
     }
     if (this.Emp.Date !== undefined && this.Emp.Date !== '')
@@ -182,18 +205,18 @@ debugger;
 
       var day =(dt.getDate() < 10 ? "0"+dt.getDate() : dt.getDate());
       var month =((Number(dt.getMonth())+1)) < 10 ? "0" + ((Number(dt.getMonth())+1)) : ((Number(dt.getMonth())+1));
-      var st_dt = day +"-"+ month +"-" +dt.getFullYear();
+      var st_dt =  month +"-"+day +"-" +dt.getFullYear();
       var res = this.EmployeeSearchList.filter(x => x.Date  === st_dt);
       this.EmployeeSearchList = res;
     }
     if (this.Emp.Email !== undefined && this.Emp.Email.trim() !== '') 
     {
-      var res = this.EmployeeSearchList.filter(x => x.Email.toLowerCase() === this.Emp.Email.toLowerCase());
+      var res = this.EmployeeSearchList.filter(x => x.Email.toLowerCase().includes(this.Emp.Email.toLowerCase()));
       this.EmployeeSearchList = res;
     }
     if (this.Emp.Company !== undefined && this.Emp.Company.trim() !== '')
     {
-      var res = this.EmployeeSearchList.filter(x => x.Company.toLowerCase() === this.Emp.Company.toLowerCase());
+      var res = this.EmployeeSearchList.filter(x => x.Company.toLowerCase().includes(this.Emp.Company.toLowerCase()));
       this.EmployeeSearchList = res;
     }
     if (this.Emp.Country !== undefined && this.Emp.Country.trim() !== '')
@@ -203,7 +226,7 @@ debugger;
     }
     if (this.Emp.Phone !== undefined && this.Emp.Phone.trim() !== '') 
     {
-      var res = this.EmployeeSearchList.filter(x => x.Phone.toLowerCase() === this.Emp.Phone.toLowerCase());
+      var res = this.EmployeeSearchList.filter(x => x.Phone.toLowerCase().includes(this.Emp.Phone.toLowerCase()));
       this.EmployeeSearchList = res;
     }
 

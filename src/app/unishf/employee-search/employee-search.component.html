@@ -10,7 +10,7 @@
             <div class="row Filters"  *ngIf="EmployeeFilters == undefined || EmployeeFilters.length == 0">
                 <h6>No Filters Available</h6>
             </div>
-            <div class="row GridContainer FilterArea"  *ngIf="EmployeeFilters != undefined || EmployeeFilters.length > 0">
+            <div class="row GridContainer FilterArea collapse multi-collapse"  id="multiCollapseExample2"  *ngIf="EmployeeFilters != undefined || EmployeeFilters.length > 0">
 
                 <form id="SearchEmployeeForm" [formGroup]="SearchEmployeeForm">
                     <div class="row" *ngFor="let filter of EmployeeFilters; let i = index">
@@ -25,7 +25,7 @@
                         <div class="m-2" *ngIf="filter.type == 'dropdown'">
                             <label for={{filter.title}}>{{filter.title}}</label>
                             <select class="custom-select"  formControlName={{filter.title}} name={{filter.title}} id={{filter.title}}>
-                                <option *ngFor="let country of filter.countries"  [value]="country.Alpha3Code">{{country.Name}}</option>
+                                <option *ngFor="let country of filter.countries" [value]="country.Alpha3Code">{{country.Name}}</option>
                             </select>
                         </div>
                     </div>
@@ -38,22 +38,24 @@
 
         <div class="col-md-10 p-1 GridContainer">
             <div class="row">
-                <div class="col-md-1 text-dark m-2">
-                    <h6>Heroes</h6>
+                <div class="col col-lg-1 text-dark m-2 border-right">
+                    <div class="form-group"> <h6 class="form-text">Heroes</h6></div>
+                   
                 </div>
-                <div class="col-md-10 text-dark m-2">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-                        <small id="helpId" class="form-text text-muted">Search Heroes</small>
-                    </div>
+                <div class="col col-lg-9  text-dark m-2">
+                   
                 </div>
+                <div class="col col-lg-1 text-dark m-2"  *ngIf="EmployeeFilters.length > 0">
+                    <i class="fa fa-sliders Search" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2"></i> <i class="fa fa-search Search" aria-hidden="true" (click)="FilterHeroes()"></i> 
+                </div>
+
             </div>
             <table class="table table-sm table-hover table-bordered">
                 <thead class="HeaderTable">
                     <tr>
                         <th class="text-dark" style="width: 15%;">Name  <i class="fa fa-sort-alpha-desc Search"  aria-hidden="true" (click)="SortByNameDesc()"></i>&nbsp;&nbsp;<i class="fa fa-sort-alpha-asc Search" aria-hidden="true" (click)="SortByNameAsc()"></i></th>
                         <th class="text-dark" style="width: 15%;">Phone</th>
-                        <th class="text-dark" style="width: 20%;">Email</th>
+                        <th class="text-dark" style="width: 20%;">Email <i class="fa fa-sort-alpha-desc Search"  aria-hidden="true" (click)="SortByEmailDesc()"></i>&nbsp;&nbsp;<i class="fa fa-sort-alpha-asc Search" aria-hidden="true" (click)="SortByEmailAsc()"></i></th>
                         <th class="text-dark" style="width: 15%;">Date</th>
                         <th class="text-dark" style="width: 15%;">Country  <i class="fa fa-sort-alpha-desc Search"  aria-hidden="true" (click)="SortByCountryDesc()"></i>&nbsp;&nbsp;<i class="fa fa-sort-alpha-asc Search" aria-hidden="true" (click)="SortByCountryAsc()"></i></th>
                         <th class="text-dark" style="width: 20%;">Company  <i class="fa fa-sort-alpha-desc Search"  aria-hidden="true" (click)="SortByCompanyDesc()"></i>&nbsp;&nbsp;<i class="fa fa-sort-alpha-asc Search" aria-hidden="true" (click)="SortByCompanyAsc()"></i></th>

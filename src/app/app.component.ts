@@ -8,5 +8,5 @@ import { EmployeeSearchComponent } from './unishf/employee-search/employee-searc
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'test-app';
+  title = 'Sary Assignment - Awais Ur Rehman';
 }
