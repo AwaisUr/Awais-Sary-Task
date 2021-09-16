@@ -10,7 +10,7 @@
             <div class="row Filters"  *ngIf="EmployeeFilters == undefined || EmployeeFilters.length == 0">
                 <h6>No Filters Available</h6>
             </div>
-            <div class="row GridContainer FilterArea collapse multi-collapse"  id="multiCollapseExample2"  *ngIf="EmployeeFilters != undefined || EmployeeFilters.length > 0">
+            <div class="row GridContainer FilterArea multi-collapse"  id="multiCollapseExample2"  *ngIf="EmployeeFilters != undefined || EmployeeFilters.length > 0">
 
                 <form id="SearchEmployeeForm" [formGroup]="SearchEmployeeForm">
                     <div class="row" *ngFor="let filter of EmployeeFilters; let i = index">
